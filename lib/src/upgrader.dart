@@ -661,21 +661,51 @@ class Upgrader {
           ));
     }
     return AlertDialog(
-      title: Text(title, key: const Key('upgrader.dialog.title')),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12.0),
+      ),
+      elevation: 20,
+      titlePadding: EdgeInsets.zero,
+      title: Column(
+        children: [
+          Container(
+            width: double.infinity,
+            decoration: const BoxDecoration(
+                color: Color(0xFF092E42),
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(12.0),
+                  topRight: Radius.circular(12.0),
+                )),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 20.0),
+              child: Image.asset(
+                'assets/dinamik-logo.png',
+                width: 100,
+                height: 100,
+              ),
+            ),
+          ),
+          const SizedBox(height: 20),
+          Text(title, key: const Key('upgrader.dialog.title')),
+        ],
+      ),
       content: Container(
-          constraints: const BoxConstraints(maxHeight: 400),
-          child: SingleChildScrollView(
-              child: Column(
+        constraints: const BoxConstraints(maxHeight: 400),
+        child: SingleChildScrollView(
+          child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               Text(message),
               Padding(
-                  padding: const EdgeInsets.only(top: 15.0),
-                  child: Text(messages.message(UpgraderMessage.prompt) ?? '')),
+                padding: const EdgeInsets.only(top: 15.0),
+                child: Text(messages.message(UpgraderMessage.prompt) ?? ''),
+              ),
               if (notes != null) notes,
             ],
-          ))),
+          ),
+        ),
+      ),
       actions: <Widget>[
         if (showIgnore)
           TextButton(
@@ -687,10 +717,19 @@ class Upgrader {
               child: Text(
                   messages.message(UpgraderMessage.buttonTitleLater) ?? ''),
               onPressed: () => onUserLater(context, true)),
-        TextButton(
-            child:
-                Text(messages.message(UpgraderMessage.buttonTitleUpdate) ?? ''),
-            onPressed: () => onUserUpdated(context, !blocked())),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 20),
+          child: ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.green,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(6.0),
+                ),
+              ),
+              child: Text(
+                  messages.message(UpgraderMessage.buttonTitleUpdate) ?? ''),
+              onPressed: () => onUserUpdated(context, !blocked())),
+        ),
       ],
     );
   }
